@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json.schemastore.org/package",
+  "name": "@example/nodered-toolset",
+  "type": "commonjs",
+  "version": "0.0.0-0",
+  "license": "CC BY-SA 4.0",
+  "description": "toolset to build Node-RED flows as single executable",
+  "scripts": {
+    "changelog": "npx conventional-changelog -r 0 -p angular -i CHANGELOG.md -s",
+    "echo": "npx http-echo-server 8085",
+    "build.cnf:settings": "cp ./nodered.settings.js ./out/",
+    "build.cnf:flow": "cp ./nodered.flows.json ./out/",
+    "build.cnf": "npx npm-run-all build.cnf:*",
+    "build.w64-msi": "dotnet build -t:Rebuild -p:Configuration=Release ./nodered.sln",
+    "build.w64:exe": "pkg -C gzip -t node*-win-x64 -c ./nodered.json -o ./out/nodered.main ./node_modules/node-red/red.js",
+    "build.w64:cnf": "npm run build.cnf",
+    "build.w64:bat": "cp ./nodered.bat ./out/",
+    "build.w64:nssm": "cp ./nodered.nssm.exe ./out/",
+    "build.w64": "npx npm-run-all clean build.w64:* build.w64-msi",
+    "build": "npm run build.w64",
+    "clean:obj": "rm -rf ./obj/",
+    "clean:out": "rm -rf ./out/",
+    "clean": "npx npm-run-all clean:*"
+  },
+  "devDependencies": {
+    "node-red": "^4.0.5",
+    "node-red-contrib-http-request": "^0.1.14",
+    "node-red-contrib-loop": "^1.0.1",
+    "node-red-contrib-modbus": "^5.43.0",
+    "pkg": "^5.8.1"
+  }
+}

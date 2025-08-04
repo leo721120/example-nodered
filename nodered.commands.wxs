@@ -1,0 +1,13 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <ComponentGroup Id="CommandComponents" Directory="INSTALLFOLDER">
+      <Component Id="COMP14DCF1C945A085BCCEB039D2C68A" Guid="*">
+        <File Id="afterinstall" KeyPath="yes" Source="./out/nodered.afterinstall.bat" />
+      </Component>
+
+      <Component Id="COMPC620DE1B40AE8204D0299544D8B8" Guid="*">
+        <File Id="beforeuninstall" KeyPath="yes" Source="./out/nodered.beforeuninstall.bat" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

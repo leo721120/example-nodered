@@ -1,0 +1,12 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <CustomAction
+      Id="BeforeUninstall"
+      Execute="deferred"
+      Return="check"
+      Impersonate="no"
+      ExeCommand='[INSTALLFOLDER]/nodered.beforeuninstall.bat'
+      Directory="INSTALLFOLDER"
+      />
+  </Fragment>
+</Wix>

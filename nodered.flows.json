@@ -1,0 +1,223 @@
+[
+    {
+        "id": "0e8d0aef.b95f88",
+        "type": "tab",
+        "label": "ADAM-Reader",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "6a247f931f2c64ab",
+        "type": "modbus-read",
+        "z": "0e8d0aef.b95f88",
+        "name": "Read Coil Status",
+        "topic": "",
+        "showStatusActivities": false,
+        "logIOActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "",
+        "dataType": "Coil",
+        "adr": "0",
+        "quantity": "6",
+        "rate": "1",
+        "rateUnit": "s",
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "server": "8110ba46f65226d0",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 320,
+        "y": 640,
+        "wires": [
+            [
+                "cff14452125ba11b",
+                "e7e65dc6784d3b68"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "cff14452125ba11b",
+        "type": "debug",
+        "z": "0e8d0aef.b95f88",
+        "name": "Print Coil Status",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "e7e65dc6784d3b68",
+        "type": "rbe",
+        "z": "0e8d0aef.b95f88",
+        "name": "If Coil Status Changed",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 560,
+        "y": 660,
+        "wires": [
+            [
+                "56686c9f62651d1d"
+            ]
+        ]
+    },
+    {
+        "id": "d13455b2e36fc170",
+        "type": "loop",
+        "z": "0e8d0aef.b95f88",
+        "name": "",
+        "kind": "enum",
+        "count": "",
+        "initial": "1",
+        "step": "1",
+        "condition": "",
+        "conditionType": "js",
+        "when": "before",
+        "enumeration": "enum",
+        "enumerationType": "msg",
+        "limit": "",
+        "loopPayload": "loop-index",
+        "finalPayload": "final-orig",
+        "x": 1030,
+        "y": 660,
+        "wires": [
+            [],
+            [
+                "b81c4d81fb980136"
+            ]
+        ]
+    },
+    {
+        "id": "b81c4d81fb980136",
+        "type": "function",
+        "z": "0e8d0aef.b95f88",
+        "name": "On Each Coil Status",
+        "func": "msg.payload = {\n    index: msg.payload,\n    state: msg.enum[msg.payload],\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1040,
+        "y": 740,
+        "wires": [
+            [
+                "d13455b2e36fc170",
+                "80fcd1c3365b956f"
+            ]
+        ]
+    },
+    {
+        "id": "56686c9f62651d1d",
+        "type": "function",
+        "z": "0e8d0aef.b95f88",
+        "name": "Begin Loop",
+        "func": "msg.enum = [...msg.payload];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 660,
+        "wires": [
+            [
+                "d13455b2e36fc170"
+            ]
+        ]
+    },
+    {
+        "id": "e03b5c03637654a0",
+        "type": "www-request",
+        "z": "0e8d0aef.b95f88",
+        "name": "Send to Webapp",
+        "method": "use",
+        "ret": "txt",
+        "url": "",
+        "follow-redirects": true,
+        "persistent-http": true,
+        "tls": "",
+        "x": 1040,
+        "y": 900,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "80fcd1c3365b956f",
+        "type": "function",
+        "z": "0e8d0aef.b95f88",
+        "name": "Convert to Notify",
+        "func": "const host = env.get('EXAMPLE_WEBAPP');\nconst args = {\n    'ikey': env.get('EXAMPLE_APIKEY'),\n    'ADAM(index)': msg.payload.index,\n    'ADAM(state)': msg.payload.state ? 1 : 0,\n};\nconst qs = Object.entries(args)\n    .map(([key, value]) => `${key}=${value}`)\n    .join('&')\n    ;\nmsg.method = 'GET';\nmsg.url = `http://${host}/nsapi/v3/sensors?${qs}`;\nmsg.payload = null;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1030,
+        "y": 820,
+        "wires": [
+            [
+                "e03b5c03637654a0"
+            ]
+        ]
+    },
+    {
+        "id": "8110ba46f65226d0",
+        "type": "modbus-client",
+        "name": "ADAM Series",
+        "clienttype": "tcp",
+        "bufferCommands": true,
+        "stateLogEnabled": false,
+        "queueLogEnabled": false,
+        "failureLogEnabled": true,
+        "tcpHost": "172.22.132.68",
+        "tcpPort": 502,
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": 9600,
+        "serialDatabits": 8,
+        "serialStopbits": 1,
+        "serialParity": "none",
+        "serialConnectionDelay": 100,
+        "serialAsciiResponseStartDelimiter": "0x3A",
+        "unit_id": 1,
+        "commandDelay": 1,
+        "clientTimeout": 1000,
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": 2000,
+        "parallelUnitIdsAllowed": true,
+        "showErrors": false,
+        "showWarnings": true,
+        "showLogs": true
+    },
+    {
+        "id": "3afb73e67e5b1571",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-modbus": "5.43.0",
+            "node-red-contrib-loop": "1.0.1",
+            "node-red-contrib-http-request": "0.1.14"
+        }
+    }
+]

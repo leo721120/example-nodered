@@ -1,0 +1,32 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package
+    Name="$(ProductName)/$(ProductType)"
+    Manufacturer="$(Company)"
+    Version="$(Version)"
+    UpgradeCode="{182AB2FC-9990-41DA-9BEB-FC709DD4EE53}"
+    >
+    <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" AllowSameVersionUpgrades="yes"/>
+    <Icon Id="ProductIcon" SourceFile="nodered.ico" />
+    <Property Id="ARPPRODUCTICON" Value="ProductIcon" />
+    <MediaTemplate EmbedCab="true"/>
+
+    <InstallExecuteSequence>
+      <Custom
+        Action="AfterInstall"
+        After="InstallFiles"
+        Condition='(NOT Installed) Or (UPGRADINGPRODUCTCODE)'
+        />
+      <Custom
+        Action="BeforeUninstall"
+        Before="RemoveFiles"
+        Condition='(REMOVE="ALL") And (NOT UPGRADINGPRODUCTCODE)'
+        />
+    </InstallExecuteSequence>
+
+    <Feature Id="main">
+      <ComponentGroupRef Id="MainComponents" />
+      <ComponentGroupRef Id="CommandComponents" />
+      <ComponentGroupRef Id="LicenseComponents" />
+    </Feature>
+  </Package>
+</Wix>

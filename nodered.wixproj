@@ -1,0 +1,62 @@
+﻿<Project Sdk="WixToolset.Sdk/6.0.1" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(SolutionDir)\nodered.license.props" />
+  <PropertyGroup>
+    <!--default properties-->
+    <Description>nodered flow runner</Description>
+    <Copyright>© 2025 abcxyz</Copyright>
+    <Version Condition="'$(Version)' == ''">1.0.0.0</Version>
+    <Product>nodered</Product>
+    <Company>abcxyz</Company>
+    <!--custom properties-->
+    <ProductType>nodered</ProductType>
+    <ProductName>example</ProductName>
+    <ProductHome>example</ProductHome>
+    <ServiceName>example-nodered</ServiceName>
+    <!---->
+    <OutputPath>out\</OutputPath>
+    <BindFiles>true</BindFiles>
+    <!--export variables to wixtools-->
+    <DefineConstants>
+      Version=$(Version);
+      Company=$(Company);
+      ProductHome=$(ProductHome);
+      ProductName=$(ProductName);
+      ProductType=$(ProductType);
+    </DefineConstants>
+    <AfterInstall>
+@echo off
+cd /d "%~dp0"
+
+nodered.nssm.exe stop $(ServiceName)
+nodered.nssm.exe remove $(ServiceName) confirm
+nodered.nssm.exe install $(ServiceName) nodered.main.exe --settings nodered.settings.js nodered.flows.json
+nodered.nssm.exe set $(ServiceName) Description "$(Description)"
+nodered.nssm.exe set $(ServiceName) DisplayName "$(ProductName)/$(ProductType)"
+nodered.nssm.exe set $(ServiceName) Start SERVICE_DELAYED_AUTO_START
+
+exit /b 0
+    </AfterInstall>
+    <BeforeUninstall>
+@echo off
+cd /d "%~dp0"
+
+nodered.nssm.exe stop $(ServiceName)
+nodered.nssm.exe remove $(ServiceName) confirm
+
+exit /b 0
+    </BeforeUninstall>
+  </PropertyGroup>
+    
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <OutputName>$(ProductName).$(ProductType).$(Version).$(Platform)d</OutputName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <OutputName>$(ProductName).$(ProductType).$(Version).$(Platform)</OutputName>
+  </PropertyGroup>
+
+  <Target Name="AfterInstall" BeforeTargets="PreBuildEvent">
+    <WriteLinesToFile File="$(OutDir)\LICENSE" Lines="$(LicenseContent)" Overwrite="true" />
+    <WriteLinesToFile File="$(OutDir)\nodered.afterinstall.bat" Lines="$(AfterInstall)" Overwrite="true" />
+    <WriteLinesToFile File="$(OutDir)\nodered.beforeuninstall.bat" Lines="$(BeforeUninstall)" Overwrite="true" />
+  </Target>
+</Project>

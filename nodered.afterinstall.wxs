@@ -1,0 +1,12 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <CustomAction
+      Id="AfterInstall"
+      Execute="deferred"
+      Return="check"
+      Impersonate="no"
+      ExeCommand=''
+      FileRef='afterinstall'
+      />
+  </Fragment>
+</Wix>

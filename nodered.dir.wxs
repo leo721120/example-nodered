@@ -1,0 +1,11 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <StandardDirectory Id="ProgramFiles6432Folder">
+      <!--create identifier-->
+      <Directory Id="INSTALLFOLDER" Name="$(ProductName)\$(ProductType)" />
+    </StandardDirectory>
+    
+    <!--force installed dir to here-->
+    <SetDirectory Id="INSTALLFOLDER" Value="[WindowsVolume]\$(ProductHome)\$(ProductType)" />
+  </Fragment>
+</Wix>

@@ -1,0 +1,21 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <ComponentGroup Id="MainComponents" Directory="INSTALLFOLDER">
+      <Component Id="COMP165EE02E457A931EE700B733C247" Guid="*">
+        <File Id="main" KeyPath="yes" Source="./out/nodered.main.exe" />
+      </Component>
+
+      <Component Id="COMP8C72D9544F209A75C571326CE63E" Guid="*">
+        <File Id="nssm" KeyPath="yes" Source="./out/nodered.nssm.exe" />
+      </Component>
+
+      <Component Id="COMP70242DE74DA88286FBDDC9AE4B46" Guid="*">
+        <File Id="flow" KeyPath="yes" Source="./out/nodered.flows.json" />
+      </Component>
+
+      <Component Id="COMP29D53B924261B2DEFF98465932A9" Guid="*">
+        <File Id="conf" KeyPath="yes" Source="./out/nodered.settings.js" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/package",
+  "name": "@example/nodered-executable",
+  "type": "commonjs",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "description": "single executable for Node-RED",
+  "scripts": {
+  },
+  "pkg": {
+    "assets": [
+      "./node_modules/**/*"
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <ComponentGroup Id="LicenseComponents" Directory="INSTALLFOLDER">
+      <Component Id="COMPC1F158F8446D8EC6FF6D68021484" Guid="*">
+        <File Id="license" KeyPath="yes" Source="./out/LICENSE" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
