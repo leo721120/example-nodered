@@ -1,0 +1,23 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <ComponentGroup Id="RegistryComponents" Directory="INSTALLFOLDER">
+      <Component Id="COMPAE88D85A48579306A88E4AF61304" Guid="*">
+        <RegistryValue
+          Root="HKCU"
+          Key="Software\$(Company)\$(ProductName)\$(ProductType)"
+          Name="Location"
+          Type="string"
+          Value="[INSTALLFOLDER]"
+          />
+
+        <RegistryValue
+          Root="HKCU"
+          Key="Software\$(Company)\$(ProductName)\$(ProductType)"
+          Name="Version"
+          Type="string"
+          Value="$(Version)"
+          />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

@@ -29,10 +29,17 @@ cd /d "%~dp0"
 
 nodered.nssm.exe stop $(ServiceName)
 nodered.nssm.exe remove $(ServiceName) confirm
-nodered.nssm.exe install $(ServiceName) nodered.main.exe --settings nodered.settings.js nodered.flows.json
+nodered.nssm.exe install $(ServiceName) nodered.main.exe
+nodered.nssm.exe set $(ServiceName) Start SERVICE_DEMAND_START
+nodered.nssm.exe set $(ServiceName) AppParameters "--settings nodered.settings.js nodered.flows.json"
+nodered.nssm.exe set $(ServiceName) AppDirectory %CWD%
+nodered.nssm.exe set $(ServiceName) AppNoConsole 1
+nodered.nssm.exe set $(ServiceName) AppRotateFiles 1
+nodered.nssm.exe set $(ServiceName) AppRotateBytes 1048576
+nodered.nssm.exe set $(ServiceName) AppStdout "%CWD%nodered.out.log"
+nodered.nssm.exe set $(ServiceName) AppStderr "%CWD%nodered.err.log"
 nodered.nssm.exe set $(ServiceName) Description "$(Description)"
 nodered.nssm.exe set $(ServiceName) DisplayName "$(ProductName)/$(ProductType)"
-nodered.nssm.exe set $(ServiceName) Start SERVICE_DELAYED_AUTO_START
 
 exit /b 0
     </AfterInstall>

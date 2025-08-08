@@ -27,6 +27,7 @@
       <ComponentGroupRef Id="MainComponents" />
       <ComponentGroupRef Id="CommandComponents" />
       <ComponentGroupRef Id="LicenseComponents" />
+      <ComponentGroupRef Id="RegistryComponents" />
     </Feature>
   </Package>
 </Wix>

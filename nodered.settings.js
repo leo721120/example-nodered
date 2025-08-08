@@ -1,3 +1,15 @@
+Object.assign(process.env, {
+    // ipaddr to Modbus TCP server
+    'EXAMPLE_MODBUS': '172.22.10.10',
+    // modbus io point polling period in milliseconds
+    'EXAMPLE_PERIOD': 500,
+    // webhook url
+    'EXAMPLE_WEBAPP': 'localhost:8085',
+    // apikey for webhook
+    'EXAMPLE_APIKEY': 'XXXXXX',
+    // port for Node-RED web interface
+    'NODEREDWEB_PORT': 10040,
+});
 /**
  * This is the default settings file provided by Node-RED.
  *
@@ -32,7 +44,7 @@ module.exports = {
  ******************************************************************************/
 
     /** The file containing the flows. If not set, defaults to flows_<hostname>.json **/
-    flowFile: 'flows.json',
+    flowFile: 'nodered.flows.json',
 
     /** By default, credentials are encrypted in storage using a generated key. To
      * specify your own secret, set the following property.
@@ -41,7 +53,7 @@ module.exports = {
      * node-red from being able to decrypt your existing credentials and they will be
      * lost.
      */
-    //credentialSecret: "a-secret-key",
+    credentialSecret: false,
 
     /** By default, the flow JSON will be formatted over multiple lines making
      * it easier to compare changes when using version control.
@@ -53,7 +65,7 @@ module.exports = {
      * the user's home directory. To use a different location, the following
      * property can be used
      */
-    //userDir: '/home/nol/.node-red/',
+    userDir: './nodered',
 
     /** Node-RED scans the `nodes` directory in the userDir to find local node files.
      * The following property can be used to specify an additional directory to scan.
@@ -143,14 +155,14 @@ module.exports = {
  ******************************************************************************/
 
     /** the tcp port that the Node-RED web server is listening on */
-    uiPort: process.env.PORT || 1880,
+    uiPort: process.env.NODEREDWEB_PORT || 1880,
 
     /** By default, the Node-RED UI accepts connections on all IPv4 interfaces.
      * To listen on all IPv6 addresses, set uiHost to "::",
      * The following property can be used to listen on a specific interface. For
      * example, the following would only allow connections from the local machine.
      */
-    //uiHost: "127.0.0.1",
+    uiHost: "127.0.0.1",
 
     /** The maximum size of HTTP request that will be accepted by the runtime api.
      * Default: 5mb
@@ -591,7 +603,3 @@ module.exports = {
     //    */
     //},
 }
-Object.assign(process.env, {
-    'EXAMPLE_WEBAPP': 'localhost:8085',
-    'EXAMPLE_APIKEY': 'XXXXXX',
-});

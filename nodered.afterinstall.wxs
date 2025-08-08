@@ -5,8 +5,8 @@
       Execute="deferred"
       Return="check"
       Impersonate="no"
-      ExeCommand=''
-      FileRef='afterinstall'
+      ExeCommand='[INSTALLFOLDER]/nodered.afterinstall.bat'
+      Directory="INSTALLFOLDER"
       />
   </Fragment>
 </Wix>
